@@ -19,6 +19,11 @@ body { padding: 15px; background-color: var(--bs-dark-bg-subtle); }
         left: 0;
         width: 100%; 
         height: 100%; 
+        cursor: grab;
+        background-color: #222; 
+        border-radius: inherit; 
+        overflow: hidden;  }
+
         #cesiumContainer_parent_card_body { /* Add this ID to the card-body in HTML */
             position: relative; /* Keep this for absolute positioning of Cesium */
             min-height: 350px; /* ADJUST THIS VALUE - Try 300px, 400px, etc. */
@@ -26,14 +31,6 @@ body { padding: 15px; background-color: var(--bs-dark-bg-subtle); }
             padding: 0;
         }
         
-        
-        
-        
-
-        cursor: grab;
-        background-color: #222; 
-        border-radius: inherit; 
-        overflow: hidden;  }
         #cesiumContainer:active { cursor: grabbing; }
         #globe-loading { pointer-events: none; }
         
