@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Eye Globe App Pro Plus Air Max Space Ultra JS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.128/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.128/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="mb-3 text-center">
+            <h1>Hand Eye Globe App Pro Plus Air Max Space Ultra JS</h1>
+            <p class="lead text-muted">Rotate: Closed Fist | Spin: Flick Open | Zoom: 2 Hands Out | Click: Pinch</p>
+        </header>
+
+        <div class="row g-3">
+            
+            <div class="col-lg-7 col-md-6 order-md-1">
+                 <div class="card h-100">
+                     <div class="card-header d-flex justify-content-between align-items-center py-2">
+                         <h5 class="mb-0">Camera Feed</h5>
+                         <span id="tracking-status" class="badge bg-secondary">Tracking Off</span>
+                     </div>
+                     <div class="card-body d-flex flex-column p-2" style="flex-grow: 1; height: 100%;">
+                        <div class="webcam-container flex-grow-1 mb-2">
+                            
+                            <span id="calibration-status" class="badge bg-secondary status-badge">Calibration N/A</span>
+                            <video id="webcam" autoplay playsinline></video>
+                            <canvas id="output_canvas"></canvas>
+                            
+                            <div id="eye-cursor" class="cursor-overlay d-none"></div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-auto">
+                            <button id="start-btn" class="btn btn-primary btn-sm me-2">Start Tracking</button>
+                            
+                            <button id="calibrate-btn" class="btn btn-info btn-sm me-2" disabled title="Calibration logic removed">Calibrate (N/A)</button>
+                            <button id="stop-btn" class="btn btn-secondary btn-sm" disabled>Stop</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-5 col-md-6 order-md-2 d-flex flex-column">
+                
+                <div class="card flex-grow-1 fill-height-card">
+                    <div class="card-header d-flex justify-content-between align-items-center py-2">
+                        <h5 class="mb-0">3D Globe Control</h5>
+                        <button id="reset-globe-btn" class="btn btn-outline-light btn-sm">Reset View</button>
+                    </div>
+                    <div class="card-body p-0" style="position: relative;">
+                        <div id="cesiumContainer"></div>
+                        
+                    </div>
+                </div>
+                
+                <div class="card flex-shrink-0 mt-3">
+                   <div class="card-header py-2"><h5 class="mb-0">Gesture Status</h5></div>
+                   <div class="card-body p-2">
+                       <div id="gesture-display" class="mb-2">
+                           <p class="text-center text-muted small mb-0">Tracking stopped</p>
+                       </div>
+                       <table class="table table-sm small mb-0">
+                            <tbody>
+                                <tr> <td><span class="gesture-indicator inactive" data-gesture="click"></span> <b>Click</b></td> <td>Thumb+Index Pinch</td> </tr>
+                                <tr> <td><span class="gesture-indicator inactive" data-gesture="rotate"></span> <b>Rotate</b></td> <td>Closed Fist / Pinch</td> </tr>
+                                <tr> <td><span class="gesture-indicator inactive" data-gesture="zoom_in"></span> <b>Zoom In</b></td> <td>2 Splayed Hands Out</td> </tr>
+                                <tr> <td><span class="gesture-indicator" style="background-color: magenta; border: 1px solid magenta; opacity: 0.5;" data-gesture="flick"></span> <b>Spin</b></td> <td>Flick (Release Rotate)</td> </tr>
+                            </tbody>
+                        </table>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+        
+        <div class="row mt-3">
+             <div class="col-12">
+                 <div class="card">
+                     <div class="card-header py-2"><h5 class="mb-0">Interaction Demo Area (Buttons Only)</h5></div>
+                     <div class="card-body">
+                         <div class="display-area" id="demo-area">
+                             <div class="text-center">
+                                 <p class="small">Button interaction area.</p>
+                                 <div class="btn-group">
+                                     <button class="btn btn-sm btn-outline-primary demo-btn">Btn 1</button>
+                                     <button class="btn btn-sm btn-outline-secondary demo-btn">Btn 2</button>
+                                     <button class="btn btn-sm btn-outline-success demo-btn">Btn 3</button>
+                                 </div>
+                             </div>
+                             
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+    </div> 
+
+    
+    <div class="modal fade" id="calibration-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"> <div class="modal-dialog modal-fullscreen m-0 p-0"> <div class="modal-content"> <div class="modal-body p-0 d-flex align-items-center justify-content-center"> <div id="calibration-container" class="position-relative w-100 h-100"> <div id="calibration-instructions" class="text-center text-light position-absolute w-100 p-3" style="top: 5%; z-index: 10;"> <h2>Calibration Not Available</h2> <p>This feature requires eye-tracking logic which has been removed in this JS-only version.</p> <button class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button> </div> <div class="progress position-absolute bottom-0 start-50 translate-middle-x mb-5" id="calibration-progress" style="height: 8px; width: 50%; z-index: 10; display: none;"> <div class="progress-bar" role="progressbar" style="width: 0%"></div> </div> </div> </div> </div> </div> </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+    <script type = "module" src = "/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+body { padding: 15px; background-color: var(--bs-dark-bg-subtle); }
+        .card { margin-bottom: 1rem; }
+        
+        .webcam-container { position: relative; background-color: #111; border-radius: 8px; overflow: hidden; width: 100%; padding-top: 75%;  height: 0; }
+        #webcam, #output_canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+        
+        #webcam { z-index: 1; visibility: hidden;  }
+        #output_canvas { z-index: 2; background-color: rgba(0,0,0,0.1);  transform: scaleX(-1); }
+        .cursor-overlay { position: absolute; width: 25px; height: 25px; border-radius: 50%; background-color: rgba(255, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.3); pointer-events: none; transform: translate(-50%, -50%); z-index: 100; transition: left 0.08s linear, top 0.08s linear; }
+        .display-area { min-height: 150px; margin-top: 15px; border: 1px solid var(--bs-border-color); border-radius: 8px; padding: 15px; position: relative; overflow: hidden; }
+        .gesture-indicator { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; display: inline-block; vertical-align: middle; transition: background-color 0.2s ease; }
+        .inactive { background-color: var(--bs-secondary-bg-subtle); border: 1px solid var(--bs-secondary-border-subtle); }
+        .active { background-color: var(--bs-success); border: 1px solid var(--bs-success); box-shadow: 0 0 5px 1px var(--bs-success); }
+        #gesture-display { min-height: 45px; }
+        .status-badge { position: absolute; top: 8px; right: 8px; z-index: 10; font-size: 0.75em; }
+        #cesiumContainer { 
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; 
+        height: 100%; 
+        
+        
+        
+        
+        
+
+        cursor: grab;
+        background-color: #222; 
+        border-radius: inherit; 
+        overflow: hidden;  }
+        #cesiumContainer:active { cursor: grabbing; }
+        #globe-loading { pointer-events: none; }
+        
+        #calibration-modal .modal-dialog { max-width: 100%; width: 100%; height: 100%; margin: 0; padding: 0; }
+        #calibration-modal .modal-content { height: 100vh; border-radius: 0; border: none; background-color: #000; }
+        #calibration-container { position: relative; width: 100%; height: 100vh; overflow: hidden; cursor: none; }
+        #calibration-instructions { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); z-index: 10; color: #eee; text-shadow: 1px 1px 2px #000; width: 80%;}
+        #calibration-progress { max-width: 400px; }
+        .calibration-point { position: absolute; width: 25px; height: 25px; border-radius: 50%; background-color: red; border: 2px solid white; transform: translate(-50%, -50%); box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.7); z-index: 1000; }

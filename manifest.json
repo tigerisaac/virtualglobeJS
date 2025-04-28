@@ -1,0 +1,20 @@
+{ 
+    "name": "Hand Eye Globe App Pro Plus Air Max Space Ultra JS",
+    "short_name": "Hand Globe Ultra JS",
+    "start_url": ".",
+    "display": "standalone",
+    "description": "Control a 3D CesiumJS globe using webcam hand gestures via MediaPipe JS.",
+    "background_color": "#1a1a1a",
+    "theme_color": "#333333",
+    "orientation": "any",
+    "scope": "/",
+    "icons": [
+      {
+        "src": "/icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "prefer_related_applications": false
+  }
